@@ -1,8 +1,36 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
+import { DataSource } from 'typeorm';
+import { dataSource } from '@utils/dataSource';
+import { SeedService } from "./seed/seed.service";
+import { SeedModule } from "./seed/seed.module";
+import { configuration } from "@utils/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthModule } from "./auth/auth.module";
+import { JwtService } from "@nestjs/jwt";
+import { JwtStrategy } from "./auth/strategy/jwt.strategy";
 
 @Module({
-  imports: [],
+  imports: [
+    TypeOrmModule.forRoot(configuration.getTypeOrmConfig()),
+    SeedModule,
+    AuthModule
+  ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: DataSource,
+      useFactory: async () => {
+        const logger = new Logger('DataSource');
+        try {
+          await dataSource.initialize();
+          logger.log('Data Source has been initialized');
+          return dataSource;
+        } catch (e) {
+          logger.error('Error during Data Source initialization', e);
+        }
+      },
+    },
+    SeedService,
+  ],
 })
 export class AppModule {}
