@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { UserEntity } from '@user/entities/user.entity';
 import { SUPER_ADMIN } from '@utils/constants';
-import { bcryptHelper } from "@utils/helper";
+import { bcryptHelper } from '@utils/helper';
 
 @Injectable()
 export class SeedService {

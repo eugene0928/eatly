@@ -1,19 +1,19 @@
 import { Logger, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { dataSource } from '@utils/dataSource';
-import { SeedService } from "./seed/seed.service";
-import { SeedModule } from "./seed/seed.module";
-import { configuration } from "@utils/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthModule } from "./auth/auth.module";
-import { JwtService } from "@nestjs/jwt";
-import { JwtStrategy } from "./auth/strategy/jwt.strategy";
+import { SeedService } from './seed/seed.service';
+import { SeedModule } from './seed/seed.module';
+import { configuration } from '@utils/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { DishesModule } from "./dishes/dishes.module";
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(configuration.getTypeOrmConfig()),
     SeedModule,
-    AuthModule
+    AuthModule,
+    DishesModule
   ],
   controllers: [],
   providers: [

@@ -5,12 +5,12 @@ import { TypeOrmExModule } from '@dec/typeorm-ex.module';
 import { UserRepository } from '@user/repository/user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { ConfigService } from "@nestjs/config";
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmExModule.forCustomRepository([UserRepository]),
-    JwtModule.register({})
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, ConfigService],

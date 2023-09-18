@@ -2,10 +2,10 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from '@user/repository/user.repository';
 import { LoginDto } from '../dto/login.dto';
-import { bcryptHelper, jwtHelper } from "@utils/helper";
+import { bcryptHelper, jwtHelper } from '@utils/helper';
 import { BaseResponse } from '@utils/base.response';
-import { ServiceExceptions } from "@utils/exceptions/service.expection";
-import { RegisterDto } from "../dto/register.dto";
+import { ServiceExceptions } from '@utils/exceptions/service.expection';
+import { RegisterDto } from '../dto/register.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,10 @@ export class AuthService {
   async login(dto: LoginDto): Promise<BaseResponse<string>> {
     try {
       const user = await this.userRepository.getUserByEmail(dto.email);
-      const isPasswordValid = await bcryptHelper.isMatch(user?.password, dto.password);
+      const isPasswordValid = await bcryptHelper.isMatch(
+        user?.password,
+        dto.password,
+      );
 
       if (!user || !isPasswordValid) {
         return {
@@ -27,7 +30,10 @@ export class AuthService {
         };
       }
 
-      const TOKEN = jwtHelper.sign({ email: user.email, isAdmin: user.isAdmin });
+      const TOKEN = jwtHelper.sign({
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
 
       return {
         status: HttpStatus.OK,
@@ -53,7 +59,10 @@ export class AuthService {
       dto.password = await bcryptHelper.hash(dto.password);
       const newUser = await this.userRepository.createUser(dto);
 
-      const TOKEN = jwtHelper.sign({ email: newUser.email, isAdmin: newUser.isAdmin });
+      const TOKEN = jwtHelper.sign({
+        email: newUser.email,
+        isAdmin: newUser.isAdmin,
+      });
 
       return {
         status: HttpStatus.CREATED,
