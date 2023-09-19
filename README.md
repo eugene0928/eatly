@@ -13,7 +13,7 @@ npm install
 After installing all dependencies, next step is creating `.env` file for credentials
 
 ```shell
-cp .env-example .env
+cp .env.example .env
 ```
 
 #### Then fill the fields properly!
